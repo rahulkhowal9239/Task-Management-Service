@@ -1,4 +1,4 @@
-package com.taskmanagement_service.Routes
+package com.taskmanagement_service.routes
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives.*
