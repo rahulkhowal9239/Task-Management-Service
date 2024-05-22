@@ -4,6 +4,7 @@ import com.taskmanagement_service.model.User
 import scala.concurrent.Future
 trait UserService {
 
-  def getUserById(id: Long): Future[Option[User]]
+  def createUser(user: User): Future[Int]
+  def retrieveUserById(id: Long): Future[Option[User]]
 
 }

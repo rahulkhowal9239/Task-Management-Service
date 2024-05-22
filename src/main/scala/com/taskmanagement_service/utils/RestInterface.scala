@@ -2,7 +2,7 @@ package com.taskmanagement_service.utils
 
 import akka.http.scaladsl.server.Route
 import cats.effect.IO
-import com.taskmanagement_service.routes.UserRoute
+import com.taskmanagement_service.routes.UserRoutes
 import com.taskmanagement_service.business.{UserService, UserServiceImpl}
 import com.taskmanagement_service.database_config.{Configuration, DatabaseConnector}
 import doobie.util.transactor.Transactor
@@ -19,8 +19,8 @@ trait RestInterface extends Resources {
 
   override val userService: UserService = new UserServiceImpl()
 
-  val routes: Route = getUserByIdRoute
+  val routes: Route = userRoutes
 
 }
 
-trait Resources extends UserRoute
+trait Resources extends UserRoutes
