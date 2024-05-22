@@ -5,6 +5,5 @@ CREATE TABLE IF NOT EXISTS tasks(
   description TEXT,
   status VARCHAR(20),
   created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP NULL,
   FOREIGN KEY (userId) REFERENCES Users(id)
 );
