@@ -1,20 +1,29 @@
 package com.taskmanagement_service.routes
 
-import akka.http.scaladsl.server.Directives.*
+import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.model.StatusCodes
-import com.taskmanagement_service.model.{Task, User}
-import com.taskmanagement_service.business.{TaskService, UserService}
+import com.taskmanagement_service.model.User
+import com.taskmanagement_service.business.UserService
 import com.taskmanagement_service.utils.JsonSupport
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
+/**
+ * Routes for handling user-related operations.
+ *
+ * @param userService The user service instance.
+ * @param executionContext The execution context for handling asynchronous operations.
+ */
 trait UserRoutes extends JsonSupport with LazyLogging {
   implicit def executionContext: ExecutionContext
   val userService: UserService
 
+  /**
+   * Route for creating a new user.
+   */
   def createUserRoute: Route =
     path("users") {
       post {
@@ -31,6 +40,9 @@ trait UserRoutes extends JsonSupport with LazyLogging {
       }
     }
 
+  /**
+   * Route for retrieving a user by ID.
+   */
   def getUserByIdRoute: Route =
     path("user") {
       get {
@@ -46,6 +58,10 @@ trait UserRoutes extends JsonSupport with LazyLogging {
         }
       }
     }
+
+  /**
+   * Combined routes for user operations.
+   */
   def userRoutes: Route =
     createUserRoute ~ getUserByIdRoute
 }
