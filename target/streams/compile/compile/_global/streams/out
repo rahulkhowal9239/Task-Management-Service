@@ -1,0 +1,14 @@
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: /home/dell/Downloads/go1percent-master/Task-Management/src/main/scala/com/taskmanagement_service/utils/JsonSupport.scala:10:16 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m10 |[0m    jsonFormat3(User)[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m                ^^^^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mThe method `apply` is inserted. The auto insertion will be deprecated, please write `com.taskmanagement_service.model.User.apply` explicitly.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- [E029] Pattern Match Exhaustivity Warning: /home/dell/Downloads/go1percent-master/Task-Management/src/main/scala/com/taskmanagement_service/Routes/ResourceManager.scala:15:6 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m15 |[0m      [33mcase[0m Some(t) => complete(ToResponseMarshallable(t))[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m      ^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m      [33mmatch[0m may not be exhaustive.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m      It would fail on pattern case: None[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere were 2 deprecation warnings; re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m

@@ -1,0 +1,96 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.10.0 (Oracle Corporation Java 21.0.2)
+[debug] Load.defaultLoad until apply took 111.261926ms
+[debug]           Load.loadUnit: plugins took 100.143112ms
+[debug]           Load.loadUnit: defsScala took 0.375712ms
+[debug] [Loading] Scanning directory /home/dell/Downloads/go1percent-master/Task-Management/project
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /home/dell/Downloads/go1percent-master/Task-Management/project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 52.975956 ms
+[debug]               Load.resolveProject(task-management-build) took 53.020997ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id task-management-build, base: /home/dell/Downloads/go1percent-master/Task-Management/project, plugins: List(<none>))) took 142.082911ms
+[debug] [Loading] Done in /home/dell/Downloads/go1percent-master/Task-Management/project, returning: (task-management-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 194.853006ms
+[debug]           Load.loadUnit: cleanEvalClasses took 0.236912ms
+[debug]         Load.loadUnit(file:/home/dell/Downloads/go1percent-master/Task-Management/project/, ...) took 303.447941ms
+[debug]       Load.apply: load took 565.443521ms
+[debug]       Load.apply: resolveProjects took 6.623994ms
+[debug]       Load.apply: finalTransforms took 72.571683ms
+[debug]       Load.apply: config.delegates took 7.531388ms
+[debug]       Load.apply: Def.make(settings)... took 550.264711ms
+[debug]       Load.apply: structureIndex took 135.725799ms
+[debug]       Load.apply: mkStreams took 1.664548ms
+[info] loading project definition from /home/dell/Downloads/go1percent-master/Task-Management/project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug]     Load.loadUnit: plugins took 2349.963112ms
+[debug]     Load.loadUnit: defsScala took 0.005633ms
+[debug] [Loading] Scanning directory /home/dell/Downloads/go1percent-master/Task-Management
+[debug]       Load.loadUnit: mkEval took 7.251481ms
+[debug] [Loading] Found root project root w/ remaining 
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 2.561117 ms
+[info] loading settings for project root from build.sbt ...
+[debug]         Load.resolveProject(root) took 2.805778ms
+[debug]       Load.loadTransitive: finalizeProject(Project(id root, base: /home/dell/Downloads/go1percent-master/Task-Management, plugins: List(<none>))) took 6.758723ms
+[debug] [Loading] Done in /home/dell/Downloads/go1percent-master/Task-Management, returning: (root)
+[debug]     Load.loadUnit: loadedProjectsRaw took 170.796422ms
+[debug]     Load.loadUnit: cleanEvalClasses took 5.421115ms
+[debug]   Load.loadUnit(file:/home/dell/Downloads/go1percent-master/Task-Management/, ...) took 2527.867009ms
+[debug] Load.apply: load took 2555.281169ms
+[debug] Load.apply: resolveProjects took 0.112962ms
+[debug] Load.apply: finalTransforms took 19.254092ms
+[debug] Load.apply: config.delegates took 0.480217ms
+[debug] Load.apply: Def.make(settings)... took 114.336193ms
+[debug] Load.apply: structureIndex took 46.005741ms
+[debug] Load.apply: mkStreams took 0.002848ms
+[info] set current project to Task-Management (in build file:/home/dell/Downloads/go1percent-master/Task-Management/)
+[debug] > Exec(sbtPopOnFailure, None, None)
+[debug] > Exec(resumeFromFailure, None, None)
+[debug] > Exec(notifyUsersAboutShell, None, None)
+[debug] > Exec(iflast shell, None, None)
+[debug] > Exec(shell, None, None)
+[info] 
+[info] Here are some highlights of sbt 1.10.0:
+[info]   - SIP-51 support for Scala 2.13 evolution
+[info]   - Various Zinc fixes
+[info]   - ConsistentAnalysisFormat: new Zinc Analysis serialization
+[info]   - CommandProgress API
+[info] See https://eed3si9n.com/sbt-1.10.0 for full release notes.
+[info] Hide the banner for this release by running `skipBanner`.
+[info] sbt server started at local:///home/dell/.sbt/1.0/server/175598f520bdbfe7e8ba/sock
+[debug] Writing bsp connection file
+[info] started sbt server
