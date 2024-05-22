@@ -1,15 +1,15 @@
 package com.taskmanagement_service.routes
 
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.model.StatusCodes
-import com.taskmanagement_service.model.User
-import com.taskmanagement_service.business.UserService
+import com.taskmanagement_service.model.{Task, User}
+import com.taskmanagement_service.business.{TaskService, UserService}
 import com.taskmanagement_service.utils.JsonSupport
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent.ExecutionContext
-import scala.util.{Success, Failure}
+import scala.util.{Failure, Success}
 
 trait UserRoutes extends JsonSupport with LazyLogging {
   implicit def executionContext: ExecutionContext
