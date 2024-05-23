@@ -33,7 +33,9 @@ lazy val root = (project in file("."))
       "org.tpolecat" %% "doobie-hikari" % "1.0.0-RC1",
       "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
-      "com.typesafe.akka" %% "akka-http-spray-json" % "10.5.3"
+      "com.typesafe.akka" %% "akka-http-spray-json" % "10.5.3",
+      "ch.qos.logback" % "logback-classic" % "1.2.11",  // SLF4J binding for Logback
+      "org.slf4j" % "slf4j-api" % "1.7.36"             // SL
     )
   )
 
