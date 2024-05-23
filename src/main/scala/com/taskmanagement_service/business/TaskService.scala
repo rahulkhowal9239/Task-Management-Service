@@ -6,7 +6,7 @@ import scala.concurrent.Future
 
 trait TaskService {
 
-  def assignTask(task: AssignTask): Future[Either[ErrorResponse, Int]]
+  def assignTask(userId: String,task: AssignTask): Future[Either[ErrorResponse, Int]]
   def getTasksForUser(userId: String): Future[List[Task]]
   def getTaskSpecificForUser(userId: String, taskId: String): Future[Either[ErrorResponse, Task]]
   def updateTaskForUser(userId: String, taskId: String, updatedTask: UpdateTask): Future[Either[ErrorResponse, Int]]

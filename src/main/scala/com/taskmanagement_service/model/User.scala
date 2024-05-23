@@ -5,5 +5,5 @@ final case class User(userId: Option[String] = None, username: String, email: St
 final case class Task(userId: String, taskName: String, description: String, status: Option[String], createdOn: Option[String])
 final case class UpdateTask(description: String, status: String)
 final case class ErrorResponse(error: String)
-final case class AssignTask(userID: Option[String],taskID: Option[String],userEmail: String, taskName: String,
+final case class AssignTask(userID: String,taskID: Option[String], taskName: String,
                             description: String,status: Option[String])

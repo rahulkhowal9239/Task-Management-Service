@@ -29,24 +29,24 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param task The task to be assigned.
    * @return The ID of the created task.
    */
-  override def assignTask(task: AssignTask): Future[Either[ErrorResponse, Int]] = {
+  override def assignTask(userId: String, task: AssignTask): Future[Either[ErrorResponse, Int]] = {
     logger.debug(s"Assigning task: $task")
 
     val result: IO[Either[ErrorResponse, Int]] = for {
-      userIdEither <- userRepository.fetchUserIDByEmail(task.userEmail)
-      taskIdEither <- userIdEither match {
-        case Right(userId) =>
+      userExists <- userRepository.userExist(userId)
+      taskIdEither <- userExists match {
+        case true =>
           taskRepository.fetchTaskId(task.taskName)
-        case Left(error) =>
-          IO.pure(Left(error))
+        case false =>
+          IO.pure(Left(ErrorResponse("User does not exist")))
       }
-      result <- (userIdEither, taskIdEither) match {
-        case (Right(userId), Right(taskId)) =>
+      result <- (userExists, taskIdEither) match {
+        case (true, Right(taskId)) =>
           taskRepository.createTask(userId, taskId, task.description).transact(xa).map(Right(_))
         case (_, Left(error)) =>
           IO.pure(Left(error))
-        case (Left(error), _) =>
-          IO.pure(Left(error))
+        case (false, _) =>
+          IO.pure(Left(ErrorResponse("User does not exist")))
       }
     } yield result
 

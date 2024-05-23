@@ -22,10 +22,10 @@ trait TaskRoutes extends JsonSupport with LazyLogging {
    * Route to create a new task.
    */
   def createTaskRoute: Route =
-    path("tasks") {
+    path("users" / Segment / "tasks") { userId =>
       post {
         entity(as[AssignTask]) { task =>
-          onComplete(taskService.assignTask(task)) {
+          onComplete(taskService.assignTask(userId,task)) {
             case Success(Right(taskId)) =>
               logger.info(s"Task created with ID: $taskId")
               complete(StatusCodes.Created, s"Task created with ID: $taskId")

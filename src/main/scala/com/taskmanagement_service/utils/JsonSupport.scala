@@ -12,6 +12,6 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val taskFormat: RootJsonFormat[Task] = jsonFormat5(Task)
   implicit val taskListFormat: RootJsonFormat[TaskList] = jsonFormat1(TaskList)
   implicit val updateTaskFormat: RootJsonFormat[UpdateTask] = jsonFormat2(UpdateTask)
-  implicit val assignTaskFormat: RootJsonFormat[AssignTask] = jsonFormat6(AssignTask)
+  implicit val assignTaskFormat: RootJsonFormat[AssignTask] = jsonFormat5(AssignTask)
 
 }
