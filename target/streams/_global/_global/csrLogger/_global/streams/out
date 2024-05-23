@@ -1,3 +1,7 @@
-[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-spray-json_3/10.5.3/akka-http-spray-json_3-10.5.3.pom
-[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-spray-json_3/10.5.3/akka-http-spray-json_3-10.5.3.jar
-[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-spray-json_3/10.5.3/akka-http-spray-json_3-10.5.3-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.11/logback-classic-1.2.11.pom
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-parent/1.2.11/logback-parent-1.2.11.pom
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.11/logback-core-1.2.11.pom
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.11/logback-classic-1.2.11.jar
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.11/logback-core-1.2.11.jar
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.11/logback-core-1.2.11-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.11/logback-classic-1.2.11-sources.jar
