@@ -1,0 +1,3 @@
+[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/home/dell/test/Task-Management-Service/src/test/resources/application.conf,/home/dell/test/Task-Management-Service/target/scala-3.3.3/test-classes/application.conf)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	(/home/dell/test/Task-Management-Service/src/test/resources/db/migration/V1__Create_table.sql,/home/dell/test/Task-Management-Service/target/scala-3.3.3/test-classes/db/migration/V1__Create_table.sql)[0m
