@@ -2,8 +2,8 @@ package com.taskmanagement_service.business
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import com.taskmanagement_service.infrastructure.TaskRepositoryImpl
-import com.taskmanagement_service.model.{Task, UpdateTask}
+import com.taskmanagement_service.infrastructure.{TaskRepositoryImpl, UserRepositoryImpl}
+import com.taskmanagement_service.model.{AssignTask, ErrorResponse, Task, UpdateTask, User}
 import com.typesafe.scalalogging.LazyLogging
 import doobie.implicits.*
 import doobie.util.transactor.Transactor
@@ -21,6 +21,7 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
     with LazyLogging {
 
   private val taskRepository: TaskRepositoryImpl = new TaskRepositoryImpl(xa)
+  private val userRepository = new UserRepositoryImpl(xa)
 
   /**
    * Assigns a task to a user.
@@ -28,9 +29,28 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param task The task to be assigned.
    * @return The ID of the created task.
    */
-  override def assignTask(task: Task): Future[Int] = {
+  override def assignTask(task: AssignTask): Future[Either[ErrorResponse, Int]] = {
     logger.debug(s"Assigning task: $task")
-    taskRepository.createTask(task).transact(xa).unsafeToFuture()
+
+    val result: IO[Either[ErrorResponse, Int]] = for {
+      userIdEither <- userRepository.fetchUserIDByEmail(task.userEmail)
+      taskIdEither <- userIdEither match {
+        case Right(userId) =>
+          taskRepository.fetchTaskId(task.taskName)
+        case Left(error) =>
+          IO.pure(Left(error))
+      }
+      result <- (userIdEither, taskIdEither) match {
+        case (Right(userId), Right(taskId)) =>
+          taskRepository.createTask(userId, taskId, task.description).transact(xa).map(Right(_))
+        case (_, Left(error)) =>
+          IO.pure(Left(error))
+        case (Left(error), _) =>
+          IO.pure(Left(error))
+      }
+    } yield result
+
+    result.unsafeToFuture()
   }
 
   /**
@@ -39,7 +59,7 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param userId The ID of the user.
    * @return A list of tasks assigned to the user.
    */
-  override def getTasksForUser(userId: Long): Future[List[Task]] = {
+  override def getTasksForUser(userId: String): Future[List[Task]] = {
     taskRepository.getTasksForUser(userId).transact(xa).unsafeToFuture()
   }
 
@@ -50,8 +70,24 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param taskId The ID of the task.
    * @return An optional task if found, None otherwise.
    */
-  override def getTaskSpecificForUser(userId: Long, taskId: Long): Future[Option[Task]] = {
-    taskRepository.getSpecificTaskForUser(userId, taskId).transact(xa).unsafeToFuture()
+  override def getTaskSpecificForUser(userId: String, taskId: String): Future[Either[ErrorResponse, Task]] = {
+    val resultIO: IO[Either[ErrorResponse, Task]] = for {
+      userExists <- userRepository.userExist(userId)
+      _ <- if (userExists) IO.unit else IO.raiseError(new Exception("User does not exist"))
+      taskExists <- taskRepository.taskExists(taskId)
+      _ <- if (taskExists) IO.unit else IO.raiseError(new Exception("Task does not exist"))
+      taskLinked <- taskRepository.isUserLinkedWithTask(userId, taskId)
+      _ <- if (taskLinked) IO.unit else IO.raiseError(new Exception("User is not linked with the task"))
+      taskOpt <- taskRepository.getSpecificTaskForUser(userId, taskId).transact(xa)
+    } yield taskOpt match {
+      case Some(task) => Right(task.head)
+      case None => Left(ErrorResponse("Task not found"))
+    }
+
+    resultIO.attempt.map {
+      case Left(e) => Left(ErrorResponse(e.getMessage))
+      case Right(result) => result
+    }.unsafeToFuture()
   }
 
   /**
@@ -62,8 +98,29 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param updatedTask The updated task details.
    * @return The number of rows affected by the update operation.
    */
-  override def updateTaskForUser(userId: Long, taskId: Long, updatedTask: UpdateTask): Future[Int] = {
-    taskRepository.updateTaskForUser(userId, taskId, updatedTask).transact(xa).unsafeToFuture()
+  override def updateTaskForUser(userId: String, taskId: String, updatedTask: UpdateTask): Future[Either[ErrorResponse, Int]] = {
+    val userExistsIO: IO[Boolean] = userRepository.userExist(userId)
+    val taskExistsIO: IO[Boolean] = taskRepository.taskExists(taskId)
+
+    val resultIO: IO[Either[ErrorResponse, Int]] = for {
+      userExists <- userExistsIO
+      taskExists <- taskExistsIO
+      result <- if (!userExists) {
+        IO.pure(Left(ErrorResponse("User does not exist")))
+      } else if (!taskExists) {
+        IO.pure(Left(ErrorResponse("Task does not exist")))
+      } else {
+        taskRepository.updateTaskForUser(userId, taskId, updatedTask)
+          .transact(xa)
+          .map(Right(_))
+      }
+    } yield result
+
+    resultIO.handleErrorWith { e =>
+      // Map the exception to an appropriate error response
+      val errorMessage = e.getMessage
+      IO.pure(Left(ErrorResponse(errorMessage)))
+    }.unsafeToFuture()
   }
 
   /**
@@ -73,7 +130,24 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param taskId The ID of the task.
    * @return The number of rows affected by the delete operation.
    */
-  override def deleteTaskForUser(userId: Long, taskId: Long): Future[Int] = {
-    taskRepository.deleteTaskForUser(userId, taskId).transact(xa).unsafeToFuture()
+  override def deleteTaskForUser(userId: String, taskId: String): Future[Either[ErrorResponse, Int]] = {
+    val resultIO: IO[Either[ErrorResponse, Int]] = for {
+      userExists <- userRepository.userExist(userId)
+      taskExists <- taskRepository.taskExists(taskId)
+      result <- if (!userExists) {
+        IO.pure(Left(ErrorResponse("User does not exist")))
+      } else if (!taskExists) {
+        IO.pure(Left(ErrorResponse("Task does not exist")))
+      } else {
+        taskRepository.deleteTaskForUser(userId, taskId).transact(xa).map(Right(_))
+      }
+    } yield result
+
+    resultIO.handleErrorWith { e =>
+      // Log the error and return an appropriate ErrorResponse
+      val errorMessage = e.getMessage
+      logger.error(s"Error deleting task $taskId for user $userId: $errorMessage")
+      IO.pure(Left(ErrorResponse(errorMessage)))
+    }.unsafeToFuture()
   }
 }

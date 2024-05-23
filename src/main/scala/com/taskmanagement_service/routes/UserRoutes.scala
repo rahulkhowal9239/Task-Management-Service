@@ -14,7 +14,7 @@ import scala.util.{Failure, Success}
 /**
  * Routes for handling user-related operations.
  *
- * @param userService The user service instance.
+ * @param userService       The user service instance.
  * @param executionContext The execution context for handling asynchronous operations.
  */
 trait UserRoutes extends JsonSupport with LazyLogging {
@@ -29,9 +29,12 @@ trait UserRoutes extends JsonSupport with LazyLogging {
       post {
         entity(as[User]) { user =>
           onComplete(userService.createUser(user)) {
-            case Success(createdUserId) =>
+            case Success(Right(createdUserId)) =>
               logger.info(s"User created with ID: $createdUserId")
               complete(StatusCodes.Created, s"User created with ID: $createdUserId")
+            case Success(Left(errorResponse)) =>
+              logger.error(s"Error creating user: ${errorResponse.error}")
+              complete(StatusCodes.BadRequest, errorResponse.error)
             case Failure(exception) =>
               logger.error("Error creating user", exception)
               complete(StatusCodes.InternalServerError, "Error creating user")
@@ -41,27 +44,8 @@ trait UserRoutes extends JsonSupport with LazyLogging {
     }
 
   /**
-   * Route for retrieving a user by ID.
-   */
-  def getUserByIdRoute: Route =
-    path("user") {
-      get {
-        parameter("id".as[Long]) { userId =>
-          onSuccess(userService.retrieveUserById(userId)) {
-            case Some(user) =>
-              logger.info(s"User with ID $userId found: $user")
-              complete(user)
-            case None =>
-              logger.warn(s"User with ID $userId not found")
-              complete(StatusCodes.NotFound, "User not found")
-          }
-        }
-      }
-    }
-
-  /**
    * Combined routes for user operations.
    */
   def userRoutes: Route =
-    createUserRoute ~ getUserByIdRoute
+    createUserRoute
 }

@@ -1,14 +1,13 @@
 package com.taskmanagement_service.business
 
-import com.taskmanagement_service.model.{Task, UpdateTask}
+import com.taskmanagement_service.model.{AssignTask, ErrorResponse, Task, UpdateTask}
 
 import scala.concurrent.Future
 
 trait TaskService {
 
-  def assignTask(task: Task): Future[Int]
-  def getTasksForUser(userId: Long): Future[List[Task]]
-  def getTaskSpecificForUser(userId: Long, taskId: Long): Future[Option[Task]]
-  def updateTaskForUser(userId: Long, taskId: Long, updatedTask: UpdateTask): Future[Int]
-  def deleteTaskForUser(userId: Long, taskId: Long): Future[Int]
-}
+  def assignTask(task: AssignTask): Future[Either[ErrorResponse, Int]]
+  def getTasksForUser(userId: String): Future[List[Task]]
+  def getTaskSpecificForUser(userId: String, taskId: String): Future[Either[ErrorResponse, Task]]
+  def updateTaskForUser(userId: String, taskId: String, updatedTask: UpdateTask): Future[Either[ErrorResponse, Int]]
+  def deleteTaskForUser(userId: String, taskId: String): Future[Either[ErrorResponse, Int]]}
