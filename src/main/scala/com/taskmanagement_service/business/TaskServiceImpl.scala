@@ -26,8 +26,9 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
   /**
    * Assigns a task to a user.
    *
-   * @param task The task to be assigned.
-   * @return The ID of the created task.
+   * @param userId The ID of the user to whom the task will be assigned.
+   * @param task   The task to be assigned.
+   * @return A Future containing either an error response or the ID of the created task.
    */
   override def assignTask(userId: String, task: AssignTask): Future[Either[ErrorResponse, Int]] = {
     logger.debug(s"Assigning task: $task")
@@ -59,9 +60,18 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
    * @param userId The ID of the user.
    * @return A list of tasks assigned to the user.
    */
-  override def getTasksForUser(userId: String): Future[List[Task]] = {
-    taskRepository.getTasksForUser(userId).transact(xa).unsafeToFuture()
-  }
+  override def getTasksForUser(userId: String): Future[Either[ErrorResponse, List[Task]]] = {
+      val resultIO: IO[Either[ErrorResponse, List[Task]]] = for {
+        userExists <- userRepository.userExist(userId)
+        _ <- if (userExists) IO.unit else IO.raiseError(new Exception("User does not exist"))
+        tasks <- taskRepository.getAllTasksForUser(userId).transact(xa)
+      } yield Right(tasks)
+
+      resultIO.attempt.map {
+        case Left(e) => Left(ErrorResponse(e.getMessage))
+        case Right(result) => result
+      }.unsafeToFuture()
+    }
 
   /**
    * Retrieves a specific task for a specified user.

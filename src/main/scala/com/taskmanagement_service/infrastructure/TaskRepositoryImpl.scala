@@ -112,4 +112,16 @@ class TaskRepositoryImpl(xa: Transactor[IO]) extends TaskRepository with LazyLog
       case None => Left(ErrorResponse(s"Task with name $taskName not found"))
     }
   }
+
+  /**
+   * Retrieves all tasks for a given user ID from the database.
+   *
+   * @param userId The ID of the user whose tasks are to be retrieved.
+   * @return A `ConnectionIO` representing a list of tasks for the specified user.
+   */
+  override def getAllTasksForUser(userId: String): ConnectionIO[List[Task]] = {
+    sql"""
+         SELECT * FROM tasks WHERE user_id = $userId
+       """.query[Task].to[List]
+  }
 }

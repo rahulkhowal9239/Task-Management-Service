@@ -21,4 +21,7 @@ trait TaskRepository {
 
   def fetchTaskId(taskName: String): IO[Either[ErrorResponse, String]]
 
+  def getAllTasksForUser(userId: String): ConnectionIO[List[Task]]
+  
+
 }
