@@ -10,6 +10,14 @@ import akka.http.scaladsl.server.RouteConcatenation._
 
 import scala.concurrent.ExecutionContext
 
+/**
+ * Trait representing the REST interface of the application.
+ *
+ * This trait defines implicit dependencies required for building routes and handling requests, such as
+ * `ExecutionContext`, `DatabaseConnector`, and `Transactor`. It also provides implementations for
+ * `UserService` and `TaskService`.
+ */
+
 trait RestInterface extends Resources {
 
   implicit def executionContext: ExecutionContext
@@ -25,5 +33,12 @@ trait RestInterface extends Resources {
   val routes: Route = userRoutes ~ taskRoutes
 
 }
+
+/**
+ * Trait representing resources used by the REST interface.
+ *
+ * This trait defines abstract members for user and task routes, which are implemented by the concrete
+ * route classes.
+ */
 
 trait Resources extends UserRoutes with TaskRoutes

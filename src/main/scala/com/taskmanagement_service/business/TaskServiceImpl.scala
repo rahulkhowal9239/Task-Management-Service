@@ -127,7 +127,6 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
     } yield result
 
     resultIO.handleErrorWith { e =>
-      // Map the exception to an appropriate error response
       val errorMessage = e.getMessage
       IO.pure(Left(ErrorResponse(errorMessage)))
     }.unsafeToFuture()
@@ -154,7 +153,6 @@ class TaskServiceImpl(implicit xa: Transactor[IO], ec: ExecutionContext)
     } yield result
 
     resultIO.handleErrorWith { e =>
-      // Log the error and return an appropriate ErrorResponse
       val errorMessage = e.getMessage
       logger.error(s"Error deleting task $taskId for user $userId: $errorMessage")
       IO.pure(Left(ErrorResponse(errorMessage)))
